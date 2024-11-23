@@ -41,7 +41,7 @@ type Compte {
 type Mutation {
     saveCompte(compte:CompteRequest):Compte
     deleteCompteById(id : ID):Boolean
-    addTransaction(transaction: TransactionRequest): Transaction
+    addTransaction(transactionRequest: TransactionRequest): Transaction
 }
 
 input CompteRequest {

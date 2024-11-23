@@ -71,17 +71,24 @@ public class CompteControllerGraphQL {
 
     @MutationMapping
     public Transaction addTransaction(@Argument TransactionRequest transactionRequest){
+        // Vérification de la validité de transactionRequest
+        if (transactionRequest == null) {
+            throw new IllegalArgumentException("Transaction request is null");
+        }
+
         Compte compte = compteRepository.findById(transactionRequest.getCompteId())
-                .orElseThrow(() ->new RuntimeException("Compte not found "));
+                .orElseThrow(() -> new RuntimeException("Compte not found "));
+
         Transaction transaction = new Transaction();
         transaction.setMontant(transactionRequest.getMontant());
         transaction.setDateTransaction(transactionRequest.getDateTransaction());
         transaction.setType(transactionRequest.getType());
         transaction.setCompte(compte);
-       transactionRepository.save(transaction);
-        return transaction;
+        transactionRepository.save(transaction);
 
+        return transaction;
     }
+
 
     @QueryMapping
     public List<Transaction> transactionsByCompte(@Argument Long id ){
